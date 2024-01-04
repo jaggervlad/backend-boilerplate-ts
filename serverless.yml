@@ -1,0 +1,29 @@
+
+service: BoilerPlateApi
+frameworkVersion: "3"
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  memorySize: 2048
+
+plugins:
+  - serverless-offline
+
+functions:
+  startApp:
+    handler: handler.startApp
+    events:
+      - http: ANY /{proxy+}
+      - http: ANY /
+    environment:
+      DB_URL: ${env:DB_URL}
+
+custom:
+  serverless-offline:
+    httpPort: 4000
+
